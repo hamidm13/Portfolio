@@ -1,21 +1,11 @@
-# Use a lightweight Node.js image
-FROM node:16-alpine
+# Use a lightweight base image
+FROM nginx:alpine
 
-# Set the working directory
-WORKDIR /app
+# Copy the static files to the Nginx default directory
+COPY . /usr/share/nginx/html
 
-# Copy package.json and package-lock.json   
+# Expose port 80 for HTTP traffic
+EXPOSE 80
 
-COPY package*.json ./
-
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the application code
-COPY . .
-
-# Expose   
-EXPOSE 8080
-
-# Start the app
-CMD ["node", "index.js"]  # Replace 'index.js' with your main script
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
